@@ -35,7 +35,8 @@ public class GeneradorVapor implements InComponent{
     // Tiene coste operativo constante de 25
     @java.lang.Override
     public float getCostOperatiu() {
-        return 25;
+        if(activat){ return 25;}
+        else{ return 0;}
     }
 
     // Calculamos el output según lo indicado en el enunciado

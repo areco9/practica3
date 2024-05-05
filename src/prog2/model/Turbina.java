@@ -34,7 +34,9 @@ public class Turbina implements InComponent{
     // Tiene un coste operativo de 20
     @java.lang.Override
     public float getCostOperatiu() {
-        return 20;
+
+        if (activat){ return 20;}
+        else{ return 0;}
     }
 
     // Calculamos output según como se indica en el enunciado

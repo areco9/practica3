@@ -38,17 +38,30 @@ public class SistemaRefrigeracio implements InComponent {
 
     @Override
     public float getCostOperatiu() {
-        return 125*llistaBombes.size();
+        int n = 0;
+        // Vemos cuantas bombas están en servicio
+        for (BombaRefrigerant bomba : this.llistaBombes) {
+            if (bomba.getActivat()) {
+                n += 1;
+            }
+        }
+        return 125*n;
     }
 
     // Calculamos el output como el mínimo entre el input y 250 * nº de bombas
     @Override
     public float calculaOutput(float input) {
-        int x = 250 * llistaBombes.size();
-        if (input < x) {
-            return input;
+        int n = 0;
+        // Vemos cuantas bombas están en servicio
+        for (BombaRefrigerant bomba : this.llistaBombes) {
+            if (bomba.getActivat()) {
+                n += 1;
+            }
+        }
+        if (250*n < input) {
+            return 250*n;
         } else {
-            return x;
+            return input;
         }
     }
 

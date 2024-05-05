@@ -39,7 +39,8 @@ public class Reactor implements InComponent{
     // El reactor tiene un coste operativo de 30
     @java.lang.Override
     public float getCostOperatiu() {
-        return 30;
+        if(activada){ return 30;}
+        else{ return 0;}
     }
 
     // Calculamos el output según si el reactor está activado o no

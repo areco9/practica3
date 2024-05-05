@@ -40,14 +40,16 @@ public class BombaRefrigerant implements InBombaRefrigerant{
 
     @Override
     public void revisa(PaginaIncidencies p) {
+        // Recuperamos las bombas que estaban fuera de servicio el día anterior
+        this.foraDeServei = false;
         // Generamos un entero
         int n = this.variableUniforme.seguentValor();
         // Si este número es mayor que 100 devolvemos true
         if (n > 80) {
             this.foraDeServei = true;
             this.activada = false;
-            p.afegeixIncidencia("La bomba refrig. " + this.getId()
-                + "està fora de servei");
+            p.afegeixIncidencia("La bomba de refrigeració " + this.getId()
+                + " està fora de servei");
         }
     }
 

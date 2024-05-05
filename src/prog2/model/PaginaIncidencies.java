@@ -17,11 +17,11 @@ public class PaginaIncidencies extends PaginaBitacola{
 
     @Override
     public String toString() {
-        StringBuilder message = new StringBuilder("# Pàgina Incidèndies\n");
-        message.append("- Dia: \n" + getDia() + "\n");
+        StringBuilder message = new StringBuilder("\n# Pàgina Incidèndies\n");
+        message.append("- Dia " + getDia() + ":\n");
 
         for (String inc : llistaIncidencies) {
-            message.append("\n- Descripció Incidència: ").append(inc);
+            message.append("- Descripció Incidència: ").append(inc).append("\n");
         }
         return message.toString();
     }

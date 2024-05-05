@@ -14,7 +14,7 @@ import java.util.List;
  * @author dortiz
  */
 public class Dades implements InDades {
-    public final static long  VAR_UNIF_SEED = 123;
+    public final static long  VAR_UNIF_SEED = 100;
     public final static float GUANYS_INICIALS = 0;
     public final static float PREU_UNITAT_POTENCIA = 1;
     public final static float PENALITZACIO_EXCES_POTENCIA = 200;
@@ -68,23 +68,33 @@ public class Dades implements InDades {
      *
      */
     private PaginaEconomica actualitzaEconomia(float demandaPotencia){
+        // Variable que guardará lo que hemos ganado en ese dia
+        float guanys = 0;
         // Calculamos los costes operativos
         float costeOperativo = 0;
         costeOperativo += reactor.getCostOperatiu();
         costeOperativo += turbina.getCostOperatiu();
+        costeOperativo += generadorVapor.getCostOperatiu();
         costeOperativo += sistemaRefrigeracio.getCostOperatiu();
 
-        // En cualquier caso, tenemos que pasar el beneficio según al potencia hecha
-        // Si nos pasamos de demandapotencia, entonces penalitzacio = PENALITZACIO_EXCES_POTENCIA
+        // En cualquier caso, tenemos que pasar el beneficio según la potencia producida
+        // Si nos pasamos de potencia, entonces penalitzacio = PENALITZACIO_EXCES_POTENCIA
         float output;
         output = calculaPotencia();
         PaginaEconomica economiaCentral = null;
 
         if(demandaPotencia < output){
-            economiaCentral = new PaginaEconomica(dia, output , PENALITZACIO_EXCES_POTENCIA, costeOperativo, guanysAcumulats);
+            guanys -= costeOperativo;
+            guanys += demandaPotencia*PREU_UNITAT_POTENCIA;
+            guanys -= PENALITZACIO_EXCES_POTENCIA;
+            guanysAcumulats += guanys;
+            economiaCentral = new PaginaEconomica(dia, guanys , PENALITZACIO_EXCES_POTENCIA, costeOperativo, guanysAcumulats);
         }
-        else{
-            economiaCentral = new PaginaEconomica(dia, output , 0, costeOperativo, guanysAcumulats);
+        else {
+            guanys -= costeOperativo;
+            guanys += demandaPotencia*PREU_UNITAT_POTENCIA;
+            guanysAcumulats += guanys;
+            economiaCentral = new PaginaEconomica(dia, guanys , 0, costeOperativo, guanysAcumulats);
         }
         return economiaCentral;
     }

@@ -82,7 +82,7 @@ public class PaginaEstat extends PaginaBitacola{
     // Método toString en el formato correcto
     @Override
     public String toString() {
-        return "# PaginaEstat" +
+        return "\n# PaginaEstat" +
                 "\n- Dia: " + super.getDia() +
                 "\n- Demanda de potencia: " + getDemandaPotencia() +
                 "\n- Inserció Barres: " + getGrauInsercio() + " %" +

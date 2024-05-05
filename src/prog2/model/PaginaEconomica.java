@@ -51,7 +51,7 @@ public class PaginaEconomica extends PaginaBitacola {
     // Método toString en el formato correcto
     @Override
     public String toString() {
-        return "# Pàgina Econòmica" +
+        return "\n# Pàgina Econòmica" +
                 "\n- Dia: " + super.getDia() +
                 "\n- Beneficis: " + getBeneficis() + " Unitats Econòmiques" +
                 "\n- Penalització Excès Producció: " + getExesPotencia() + " Unitats Econòmiques" +
