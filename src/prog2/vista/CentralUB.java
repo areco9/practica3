@@ -23,13 +23,19 @@ public class CentralUB {
     
     /** Demanda de potència del dia actual **/
     private float demandaPotencia;
+    private Adaptador adaptador;
     
     /* Constructor*/
     public CentralUB() {
         variableNormal = new VariableNormal(VAR_NORM_MEAN, VAR_NORM_STD, VAR_NORM_SEED);
         demandaPotencia = generaDemandaPotencia();
-        
-        // Afegir codi adicional si fos necessari:
+
+        // generamos un objeto del tipo adaptador.
+        try {
+            adaptador = new Adaptador();
+        } catch (CentralUBException e) {
+            throw new RuntimeException(e);
+        }
 
     }
     
@@ -56,7 +62,7 @@ public class CentralUB {
     private void finalitzaDia() {
         // Finalitzar dia i imprimir informacio de la central
         String info = new String();
-        info = prog2.adaptador.finalitzaDia(demandaPotencia);
+        info = adaptador.finalitzaDia(demandaPotencia);
         System.out.println(info);
         System.out.println("Dia finalitzat\n");
         

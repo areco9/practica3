@@ -30,56 +30,67 @@ public class Adaptador {
     // GESTIÓN REACTOR
 
     // Activar Reactor
-    public void ActivarReactor() throws CentralUBException{
+    public void activarReactor() throws CentralUBException{
         dades.activaReactor();
     }
     // Desactivar Reactor
-    public void DesactivarReactor(){
+    public void desactivarReactor(){
         dades.desactivaReactor();
+    }
+    // Mostrar estado del reactor
+    public String mostrarEstatReactor() {
+        return "ESTAT REACTOR -> Activat: " + dades.mostraReactor().isActivada() +
+                ". Temperatura: " + dades.mostraReactor().getTemperatura() + " graus";
     }
 
 
     // GESTIÓN SISTEMA REFRIGERACIÓN
 
     // Activar Bomba
-    public void ActivarBomba(int id) throws CentralUBException{
+    public void activarBomba(int id) throws CentralUBException{
         dades.activaBomba(id);
     }
     // Desactivar Bomba
-    public void DesactivarBomba (int id){
+    public void desactivarBomba (int id){
         dades.desactivaBomba(id);
     }
     // Mostrar estado de las Bombas
-    public String MostrarEstatBombes(){
+    public String mostrarEstatBombes(){
         SistemaRefrigeracio sistemaRefrigeracioEstacio = dades.mostraSistemaRefrigeracio();
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for(BombaRefrigerant bomba : sistemaRefrigeracioEstacio.getLlistaBombes()){
-            s += bomba.toString() + '\n';
+            s.append("BOMBA " + bomba.getId() + " -> Activada: " + bomba.getActivat() +
+                    ". Fora de servei: " + bomba.getForaDeServei() + "\n");
         }
-        return s;
+        return s.toString();
     }
 
     // HAY QUE CORREGIRLA ESTA
     // MOSTRAR ESTADO CENTRAL
-    public String EstatCentral(float demandaPotencia){
-        PaginaEstat estadoCentral = dades.mostraEstat(demandaPotencia);
-        return estadoCentral.toString();
+    public String estatCentral(float demandaPotencia){
+        return dades.mostraEstat(demandaPotencia).toString();
     }
 
-    // Mostrar toda la información de la Bitacola
-    public void MostrarBitacola(){
-        Bitacola bitacolaCentral = dades.mostraBitacola();
-
-
+    // MOSTRAR TODA LA INFORMACIÓN DE LA BITACOLA
+    public String mostrarBitacola(){
+        return dades.mostraBitacola().toString();
     }
 
-    //Muestra la lista de incidencias
-    public String IncidenciesCentral(){
-        String s = "";
-        List<PaginaIncidencies> listaIncidencies = dades.mostraIncidencies();
-        for(PaginaIncidencies pagina : listaIncidencies){
-            s += pagina.toString() + "\n";
+    // MOSTRAR LISTA DE INCIDENCIAS
+    public String incidenciesCentral(){
+        StringBuilder s = new StringBuilder();
+        // Tomamos la lista de incidencias
+        List<PaginaIncidencies> incidencies = dades.mostraBitacola().getIncidencies();
+
+        // La vamos recorriendo y usamos el método toString para generar la lista de todas las incidencias
+        for (PaginaIncidencies incidencia : incidencies) {
+            s.append(incidencia.toString() + "\n");
         }
-        return s;
+        return s.toString();
+    }
+
+    // FINALIZAR DIA
+    public String finalitzaDia(float demandaPotencia) {
+        return this.dades.finalitzaDia(demandaPotencia).toString();
     }
 }

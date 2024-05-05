@@ -18,7 +18,16 @@ public class Bitacola implements InBitacola{
 
     @java.lang.Override
     public List<PaginaIncidencies> getIncidencies() {
-        return null;
+        List<PaginaIncidencies> incidencies = new ArrayList<>();
+
+        // Recorremos las páginas y buscamos las incidencias
+        for (PaginaBitacola pagina : this.llistaPagines) {
+            if (pagina instanceof PaginaIncidencies) {
+                // las añadimos a la lista de incidencias
+                incidencies.add((PaginaIncidencies) pagina);
+            }
+        }
+        return incidencies;
     }
 
     @Override
