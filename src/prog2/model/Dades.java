@@ -6,6 +6,7 @@ package prog2.model;
 
 import prog2.vista.CentralUBException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +43,7 @@ public class Dades implements InDades {
         this.bitacola = new Bitacola();
         this.dia = 1;
         this.guanysAcumulats = GUANYS_INICIALS;
-        
+
         // Crea bombes refrigerants
         BombaRefrigerant b0 = new BombaRefrigerant(0, variableUniforme);
         BombaRefrigerant b1 = new BombaRefrigerant(1, variableUniforme);
@@ -55,15 +56,15 @@ public class Dades implements InDades {
         this.sistemaRefrigeracio.afegirBomba(b2);
         this.sistemaRefrigeracio.afegirBomba(b3);
     }
-    
+
     /**
-     * Actualitza l'economia de la central. Genera una pàgina econòmica a 
-     * partir de la demanda de potencia actual. Aquesta pàgina econòmica inclou 
-     * beneficis, penalització per excès de potència, costos operatius y 
+     * Actualitza l'economia de la central. Genera una pàgina econòmica a
+     * partir de la demanda de potencia actual. Aquesta pàgina econòmica inclou
+     * beneficis, penalització per excès de potència, costos operatius y
      * guanys acumulats.
      * @param demandaPotencia Demanda de potència actual.
      *
-        public PaginaEconomica(int dia, float beneficis, float exesPotencia, float costosOperatius, float guanysAcumulats) {
+    public PaginaEconomica(int dia, float beneficis, float exesPotencia, float costosOperatius, float guanysAcumulats) {
      *
      */
     private PaginaEconomica actualitzaEconomia(float demandaPotencia){
@@ -87,7 +88,7 @@ public class Dades implements InDades {
         }
         return economiaCentral;
     }
-    
+
     /**
      * Actualitza l'estat de la central. El mètodo ha de establir la nova
      * temperatura del reactor i revisar els components de la central. Si
@@ -211,36 +212,40 @@ public class Dades implements InDades {
         return new PaginaEstat(this.dia, demandaPotencia, getInsercioBarres(), outputReactor, outputSistema, outputGenerador, outputTurbina, demandaSatisfeta);
     }
 
+    // Retorna la bitacola de la central
     @Override
     public Bitacola mostraBitacola() {
-        return null;
+        return bitacola;
     }
 
+    // Retorna una llista amb totes les pàgines d'incidències de la bitàcola de la central
     @Override
     public List<PaginaIncidencies> mostraIncidencies() {
-        return null;
+        List<PaginaIncidencies> llistaIncidencies = new ArrayList<>();
+        llistaIncidencies = bitacola.getIncidencies();
+        return llistaIncidencies;
     }
 
     public Bitacola finalitzaDia(float demandaPotencia) {
         // Actualitza economia
         PaginaEconomica paginaEconomica = actualitzaEconomia(demandaPotencia);
-        
+
         // Genera pàgina d'estat
         PaginaEstat paginaEstat = mostraEstat(demandaPotencia);
 
         // Actualitza estat central i registra incidencies
         PaginaIncidencies paginaIncidencies = new PaginaIncidencies(dia);
         actualitzaEstatCentral(paginaIncidencies);
-        
+
 
         // Incrementa dia
         dia += 1;
-        
+
         // Guarda pàgines de bitacola
         bitacola.afegeixPagina(paginaEconomica);
         bitacola.afegeixPagina(paginaEstat);
         bitacola.afegeixPagina(paginaIncidencies);
-        
+
         // Retorna pàgines
         Bitacola bitacolaDia = new Bitacola();
         bitacolaDia.afegeixPagina(paginaEconomica);
